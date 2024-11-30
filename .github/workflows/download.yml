@@ -20,12 +20,6 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Restore bridge files
-        uses: actions/download-artifact@master
-        with:
-          name: bridge-artifact
-          path: ./
-
       - name: Download Rustdesk library from Artifacts
         uses: actions/download-artifact@master
         with:
