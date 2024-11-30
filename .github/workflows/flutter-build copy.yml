@@ -391,7 +391,7 @@ jobs:
   build-for-macOS-arm64-selfhost:
     # use build-for-macOS instead
     if: false
-    runs-on: self-hosted
+    runs-on: [self-hosted, macOS, ARM64]
     needs: [generate-bridge]
     steps:
       - name: Export GitHub Actions cache environment variables
@@ -572,7 +572,7 @@ jobs:
   build-rustdesk-ios-selfhost:
     #if: ${{ inputs.upload-artifact }}
     if: false
-    runs-on: self-hosted
+    runs-on: [self-hosted, macOS, ARM64]
     needs: [generate-bridge]
     strategy:
       fail-fast: false
@@ -831,7 +831,7 @@ jobs:
     needs:
       - build-for-macOS
       - build-for-windows-flutter
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: ${{ inputs.upload-artifact }}
     steps:
       - name: Download artifacts
@@ -1164,7 +1164,7 @@ jobs:
     needs: [build-rustdesk-android]
     name: build rustdesk android universal apk
     if: ${{ inputs.upload-artifact }}
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     env:
       reltype: release
       x86_target: "" # can be ",android-x86"
@@ -1898,7 +1898,7 @@ jobs:
   build-appimage:
     name: Build appimage ${{ matrix.job.target }}
     needs: [build-rustdesk-linux]
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     if: ${{ inputs.upload-artifact }}
     strategy:
       fail-fast: false
@@ -2049,7 +2049,7 @@ jobs:
   build-rustdesk-web:
     if: False
     name: build-rustdesk-web
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
     env:
