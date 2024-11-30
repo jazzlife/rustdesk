@@ -4,7 +4,7 @@ on:
     types: [released]
 jobs:
   publish:
-    runs-on: build-srv
+    runs-on: ubuntu-20.04
     steps:
       - uses: vedantmgoyal9/winget-releaser@main
         with:

@@ -63,7 +63,7 @@ jobs:
   build-for-windows-flutter:
     name: ${{ matrix.job.target }}
     needs: [build-RustDeskTempTopMostWindow, generate-bridge]
-    runs-on: JAZZLIFE_P14S
+    runs-on: ${{ matrix.job.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -250,7 +250,7 @@ jobs:
   # The fallback for the flutter version, we use Sciter for 32bit Windows.
   build-for-windows-sciter:
     name: ${{ matrix.job.target }} (${{ matrix.job.os }})
-    runs-on: JAZZLIFE_P14S
+    runs-on: ${{ matrix.job.os }}
     # Temporarily disable this action due to additional test is needed.
     # if: false
     strategy:
@@ -831,7 +831,7 @@ jobs:
     needs:
       - build-for-macOS
       - build-for-windows-flutter
-    runs-on: build-srv
+    runs-on: ubuntu-latest
     if: ${{ inputs.upload-artifact }}
     steps:
       - name: Download artifacts
@@ -866,7 +866,7 @@ jobs:
   build-rustdesk-android:
     needs: [generate-bridge]
     name: build rustdesk android apk ${{ matrix.job.target }}
-    runs-on: build-srv
+    runs-on: ${{ matrix.job.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -1164,7 +1164,7 @@ jobs:
     needs: [build-rustdesk-android]
     name: build rustdesk android universal apk
     if: ${{ inputs.upload-artifact }}
-    runs-on: build-srv
+    runs-on: ubuntu-20.04
     env:
       reltype: release
       x86_target: "" # can be ",android-x86"
@@ -1352,7 +1352,7 @@ jobs:
   build-rustdesk-linux:
     needs: [generate-bridge]
     name: build rustdesk linux ${{ matrix.job.target }}
-    runs-on: build-srv
+    runs-on: ${{ matrix.job.on }}
     strategy:
       fail-fast: false
       matrix:
@@ -1684,7 +1684,7 @@ jobs:
   build-rustdesk-linux-sciter:
     if: ${{ inputs.upload-artifact }}
     needs: build-rustdesk-linux # not for dep, just make it run later for parallelism
-    runs-on: build-srv
+    runs-on: ${{ matrix.job.on }}
     name: build-rustdesk-linux-sciter ${{ matrix.job.target }}
     strategy:
       fail-fast: false
@@ -1898,7 +1898,7 @@ jobs:
   build-appimage:
     name: Build appimage ${{ matrix.job.target }}
     needs: [build-rustdesk-linux]
-    runs-on: build-srv
+    runs-on: ubuntu-20.04
     if: ${{ inputs.upload-artifact }}
     strategy:
       fail-fast: false
@@ -1950,7 +1950,7 @@ jobs:
     needs:
       - build-rustdesk-linux
       - build-rustdesk-linux-sciter
-    runs-on: build-srv
+    runs-on: ${{ matrix.job.on }}
     if: ${{ inputs.upload-artifact }}
     strategy:
       fail-fast: false
@@ -2049,7 +2049,7 @@ jobs:
   build-rustdesk-web:
     if: False
     name: build-rustdesk-web
-    runs-on: build-srv
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
     env:

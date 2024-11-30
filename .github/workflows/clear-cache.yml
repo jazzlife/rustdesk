@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   clear-cache:
-    runs-on: build-srv
+    runs-on: ubuntu-20.04
     steps:
       - name: Clear cache
         uses: actions/github-script@v7

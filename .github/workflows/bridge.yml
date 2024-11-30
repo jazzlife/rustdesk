@@ -12,7 +12,7 @@ env:
 
 jobs:
   generate_bridge:
-    runs-on: build-srv
+    runs-on: ${{ matrix.job.os }}
     strategy:
       fail-fast: false
       matrix:
