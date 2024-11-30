@@ -28,7 +28,7 @@ on:
 jobs:
   # ensure_cargo_fmt:
   #   name: Ensure 'cargo fmt' has been run
-  #   runs-on: self-hosted
+  #   runs-on: build-srv
   #   steps:
   #   - uses: actions-rs/toolchain@v1
   #     with:
@@ -41,7 +41,7 @@ jobs:
 
   # min_version:
   #   name: Minimum supported rust version
-  #   runs-on: self-hosted
+  #   runs-on: build-srv
   #   steps:
   #   - name: Checkout source code
   #     uses: actions/checkout@v3

@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   clear-cache:
-    runs-on: self-hosted
+    runs-on: build-srv
     steps:
       - name: Clear cache
         uses: actions/github-script@v7
