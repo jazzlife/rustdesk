@@ -145,6 +145,9 @@ jobs:
       #     cd $(dirname $(dirname $(which flutter)))
       #     [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
