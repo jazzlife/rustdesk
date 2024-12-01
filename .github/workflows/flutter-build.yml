@@ -44,6 +44,8 @@ env:
   API_SERVER: "${{ secrets.API_SERVER }}"
   UPLOAD_ARTIFACT: "${{ inputs.upload-artifact }}"
   SIGN_BASE_URL: "${{ secrets.SIGN_BASE_URL }}"
+  ANDROID_NDK_HOME: ""
+  ANDROID_NDK_ROOT: ""
 
 jobs:
   generate-bridge:
@@ -965,10 +967,10 @@ jobs:
           ndk-version: ${{ env.NDK_VERSION }}
           add-to-path: true
 
-      - name: Export ANDROID_NDK_HOME, ANDROID_NDK_ROOT
+      - name: Set NDK HOME&ROOT
         run: |
-          ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
-          ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
+          env.ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
+          env.ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
@@ -1068,6 +1070,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
+          ANDROID_NDK_HOME: env.ANDROID_NDK_HOME
+          ANDROID_NDK_ROOT: env.ANDROID_NDK_ROOT
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
@@ -1282,6 +1286,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
+          ANDROID_NDK_HOME: env.ANDROID_NDK_HOME
+          ANDROID_NDK_ROOT: env.ANDROID_NDK_ROOT
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
