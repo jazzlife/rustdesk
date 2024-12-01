@@ -967,8 +967,8 @@ jobs:
 
       - name: Export ANDROID_NDK_HOME, ANDROID_NDK_ROOT
         run: |
-          export ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
-          export ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
