@@ -146,7 +146,7 @@ jobs:
       #     [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
 
       - name: Setup Android SDK
-        if: ${{ matrix.job.target  == 'x86_64-linux-android' }}
+        if: ${{ matrix.job.target  != 'armv7-linux-androideabi' }}
         uses: android-actions/setup-android@v2
         with:
           api-level: 30
