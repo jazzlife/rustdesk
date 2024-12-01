@@ -967,11 +967,6 @@ jobs:
           ndk-version: ${{ env.NDK_VERSION }}
           add-to-path: true
 
-      - name: Set NDK HOME&ROOT
-        run: |
-          env.ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
-          env.ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
-
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
@@ -1070,8 +1065,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
-          ANDROID_NDK_HOME: env.ANDROID_NDK_HOME
-          ANDROID_NDK_ROOT: env.ANDROID_NDK_ROOT
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
@@ -1118,6 +1113,8 @@ jobs:
           popd
           mkdir -p signed-apk; pushd signed-apk
           mv ../rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.apk .
+          env.ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
+          env.ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT}
 
       # https://github.com/r0adkll/sign-android-release/issues/84#issuecomment-1889636075
       - name: Setup sign tool version variable
@@ -1286,8 +1283,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
-          ANDROID_NDK_HOME: env.ANDROID_NDK_HOME
-          ANDROID_NDK_ROOT: env.ANDROID_NDK_ROOT
+          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+          ANDROID_NDK_ROOT: ${{ env.ANDROID_NDK_ROOT }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
