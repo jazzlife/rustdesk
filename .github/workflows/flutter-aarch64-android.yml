@@ -47,6 +47,7 @@ env:
   ANDROID_NDK_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
   ANDROID_NDK_ROOT: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
   ANDROID_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
+  ANDROID_SDK_ROOT: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
 
 jobs:
   generate-bridge:
