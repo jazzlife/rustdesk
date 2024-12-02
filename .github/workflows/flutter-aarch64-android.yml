@@ -44,10 +44,6 @@ env:
   API_SERVER: "${{ secrets.API_SERVER }}"
   UPLOAD_ARTIFACT: "${{ inputs.upload-artifact }}"
   SIGN_BASE_URL: "${{ secrets.SIGN_BASE_URL }}"
-  ANDROID_NDK_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
-  ANDROID_NDK_ROOT: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
-  ANDROID_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
-  ANDROID_SDK_ROOT: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
 
 jobs:
   generate-bridge:
@@ -135,6 +131,22 @@ jobs:
       #     cd $(dirname $(dirname $(which flutter)))
       #     [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
 
+      - name: Setup Android SDK v2
+        if: ${{ matrix.job.target  == 'x86_64-linux-android' }}
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Android SDK v3
+        env:
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+        if: ${{ matrix.job.target  == 'aarch64-linux-android' || matrix.job.target  == 'armv7-linux-androideabi' }}
+        uses: android-actions/setup-android@v3
+
+      - uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          add-to-path: true
+
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
@@ -143,6 +155,8 @@ jobs:
           doNotCache: false
 
       - name: Install vcpkg dependencies
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
@@ -198,6 +212,9 @@ jobs:
           find . | grep dart | xargs sed -i 's/textScaler: TextScaler.linear(\(.*\)),/textScaleFactor: \1,/g'
 
       - name: Build rustdesk lib
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           rustup target add ${{ matrix.job.target }}
           cargo install cargo-ndk --version ${{ env.CARGO_NDK_VERSION }} --force
@@ -233,6 +250,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
