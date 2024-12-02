@@ -46,7 +46,7 @@ env:
   SIGN_BASE_URL: "${{ secrets.SIGN_BASE_URL }}"
   ANDROID_NDK_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
   ANDROID_NDK_ROOT: "/home/qwe/actions-runner/rustdesk/_work/_tool/ndk/r27b/x64"
-  ANDROID_SDK: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
+  ANDROID_HOME: "/home/qwe/actions-runner/rustdesk/_work/_tool/AndroidSDK"
 
 jobs:
   generate-bridge:
