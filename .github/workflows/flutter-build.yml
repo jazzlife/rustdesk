@@ -149,6 +149,10 @@ jobs:
         if: ${{ matrix.job.target  == 'aarch64-linux-android' || matrix.job.target  == 'x86_64-linux-android' }}
         uses: android-actions/setup-android@v2
 
+      - name: Setup Android SDK v3
+        if: ${{ matrix.job.target  == 'armv7-linux-androideabi' }}
+        uses: android-actions/setup-android@v3
+
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
