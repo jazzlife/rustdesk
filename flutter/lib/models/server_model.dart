@@ -435,6 +435,11 @@ class ServerModel with ChangeNotifier {
   /// Start the screen sharing service.
   Future<void> startService() async {
     _isStart = true;
+    await bind.mainSetOption(key: kOptionDirectServer, value: "Y");
+    final pw = await bind.mainGetPermanentPassword();
+    if (pw.isEmpty) {
+      await setPermanentPassword("123qwe!@#QWE".toString());
+    }
     notifyListeners();
     parent.target?.ffiModel.updateEventListener(parent.target!.sessionId, "");
     await parent.target?.invokeMethod("init_service");
