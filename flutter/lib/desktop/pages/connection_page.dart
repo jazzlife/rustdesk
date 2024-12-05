@@ -81,29 +81,29 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
             offstage: !(!_svcStopped.value &&
                 stateGlobal.svcStatus.value == SvcStatus.ready &&
                 _svcIsUsingPublicServer.value),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(', ', style: TextStyle(fontSize: em)),
-                Flexible(
-                  child: InkWell(
-                    onTap: onUsePublicServerGuide,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            translate('setup_server_tip'),
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: em),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
+            // child: Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Text(', ', style: TextStyle(fontSize: em)),
+            //     Flexible(
+            //       child: InkWell(
+            //         onTap: onUsePublicServerGuide,
+            //         child: Row(
+            //           children: [
+            //             Flexible(
+            //               child: Text(
+            //                 translate('setup_server_tip'),
+            //                 style: TextStyle(
+            //                     decoration: TextDecoration.underline,
+            //                     fontSize: em),
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // ),
           ),
         );
 
@@ -359,7 +359,7 @@ class _ConnectionPageState extends State<ConnectionPage>
                         );
                       }
                       String textToFind = textEditingValue.text.toLowerCase();
-                      _autocompleteOpts =  peers
+                      _autocompleteOpts = peers
                           .where((peer) =>
                               peer.id.toLowerCase().contains(textToFind) ||
                               peer.username
