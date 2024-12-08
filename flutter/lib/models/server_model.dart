@@ -25,13 +25,13 @@ const kUsePermanentPassword = "use-permanent-password";
 const kUseBothPasswords = "use-both-passwords";
 
 class ServerModel with ChangeNotifier {
-  bool _isStart = true; // Android MainService status
-  bool _mediaOk = true;
-  bool _inputOk = true;
-  bool _audioOk = true;
-  bool _fileOk = true;
-  bool _clipboardOk = true;
-  bool _showElevation = true;
+  bool _isStart = false; // Android MainService status
+  bool _mediaOk = false;
+  bool _inputOk = false;
+  bool _audioOk = false;
+  bool _fileOk = false;
+  bool _clipboardOk = false;
+  bool _showElevation = false;
   bool hideCm = true;
   int _connectStatus = 0; // Rendezvous Server status
   String _verificationMethod = "";
@@ -435,6 +435,7 @@ class ServerModel with ChangeNotifier {
   /// Start the screen sharing service.
   Future<void> startService() async {
     _isStart = true;
+    await bind.mainSetOption(key: kOptionDirectServer, value: "Y");
     final pw = await bind.mainGetPermanentPassword();
     if (pw.isEmpty) {
       await setPermanentPassword("123qwe!@#QWE".toString());
