@@ -1,0 +1,30 @@
+name: Test Cache Workflow
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  cache-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
+
+      - name: Verify cache
+        run: |
+          echo "Cache restored:"
+          ls -al ~/.pub-cache
+
+      - name: Save cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}

