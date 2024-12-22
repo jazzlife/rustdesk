@@ -161,12 +161,12 @@ jobs:
       #     cd $(dirname $(dirname $(which flutter)))
       #     [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
 
-      # - name: Install Android NDK
-      #   uses: nttld/setup-ndk@v1
-      #   id: setup-ndk
-      #   with:
-      #     ndk-version: ${{ env.NDK_VERSION }}
-      #     add-to-path: true
+      - name: Install Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: ${{ env.NDK_VERSION }}
+          add-to-path: true
 
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
@@ -177,7 +177,9 @@ jobs:
 
       - name: Install vcpkg dependencies
         env:
-          ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/27.2.12479018
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
+          # ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/27.2.12479018
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
@@ -233,6 +235,9 @@ jobs:
           find . | grep dart | xargs sed -i 's/textScaler: TextScaler.linear(\(.*\)),/textScaleFactor: \1,/g'
 
       - name: Build rustdesk lib
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           rustup target add ${{ matrix.job.target }}
           case ${{ matrix.job.target }} in
@@ -267,6 +272,8 @@ jobs:
       - name: Build rustdesk
         shell: bash
         env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           export PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH
