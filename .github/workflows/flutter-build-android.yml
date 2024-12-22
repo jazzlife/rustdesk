@@ -131,6 +131,22 @@ jobs:
                tree \
                wget
 
+      - name: Set up Cargo cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/bin/cargo-ndk
+          key: ${{ runner.os }}-cargo-ndk-${{ env.CARGO_NDK_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-ndk-
+
+      - name: Install Cargo NDK if not cached
+        run: |
+          if ! command -v cargo-ndk &> /dev/null; then
+            cargo install cargo-ndk --version ${{ env.CARGO_NDK_VERSION }} --locked
+          else
+            echo "Cargo NDK is already installed."
+          fi
+
       - name: Checkout source code
         uses: actions/checkout@v4
       - name: Install flutter
@@ -158,9 +174,6 @@ jobs:
           doNotCache: false
 
       - name: Install vcpkg dependencies
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
@@ -218,7 +231,6 @@ jobs:
       - name: Build rustdesk lib
         run: |
           rustup target add ${{ matrix.job.target }}
-          cargo install cargo-ndk --version ${{ env.CARGO_NDK_VERSION }} --locked --force
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
               ./flutter/ndk_arm64.sh
