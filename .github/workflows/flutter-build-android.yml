@@ -176,6 +176,8 @@ jobs:
           doNotCache: false
 
       - name: Install vcpkg dependencies
+        env:
+          ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/27.2.12479018
         run: |
           case ${{ matrix.job.target }} in
             aarch64-linux-android)
