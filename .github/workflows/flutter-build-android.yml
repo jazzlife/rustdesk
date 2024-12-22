@@ -339,9 +339,9 @@ jobs:
           alias: ${{ secrets.ANDROID_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        # env:
-        #   # env.ANDROID_SIGN_TOOL_VERSION is set by Step "Setup sign tool version variable"
-        #   BUILD_TOOLS_VERSION: ${{ env.ANDROID_SIGN_TOOL_VERSION }}
+        env:
+          # env.ANDROID_SIGN_TOOL_VERSION is set by Step "Setup sign tool version variable"
+          BUILD_TOOLS_VERSION: ${{ env.ANDROID_SIGN_TOOL_VERSION }}
 
       - name: Upload Artifacts
         if: env.ANDROID_SIGNING_KEY != null && env.UPLOAD_ARTIFACT == 'true'
