@@ -59,19 +59,19 @@ class _PeerTabPageState extends State<PeerTabPage>
           menuPadding: _menuPadding(),
         ),
         bind.mainDiscover),
-    _TabEntry(
-        AddressBook(
-          menuPadding: _menuPadding(),
-        ),
-        ({dynamic hint}) => gFFI.abModel.pullAb(
-            force: hint == null ? ForcePullAb.listAndCurrent : null,
-            quiet: false)),
-    _TabEntry(
-      MyGroup(
-        menuPadding: _menuPadding(),
-      ),
-      ({dynamic hint}) => gFFI.groupModel.pull(force: hint == null),
-    ),
+    // _TabEntry(
+    //     AddressBook(
+    //       menuPadding: _menuPadding(),
+    //     ),
+    //     ({dynamic hint}) => gFFI.abModel.pullAb(
+    //         force: hint == null ? ForcePullAb.listAndCurrent : null,
+    //         quiet: false)),
+    // _TabEntry(
+    //   MyGroup(
+    //     menuPadding: _menuPadding(),
+    //   ),
+    //   ({dynamic hint}) => gFFI.groupModel.pull(force: hint == null),
+    // ),
   ];
   RelativeRect? mobileTabContextMenuPos;
 
@@ -244,26 +244,26 @@ class _PeerTabPageState extends State<PeerTabPage>
     return PeerViewDropdown();
   }
 
-  Widget _createMultiSelection() {
-    final textColor = Theme.of(context).textTheme.titleLarge?.color;
-    final model = Provider.of<PeerTabModel>(context);
-    return _hoverAction(
-      toolTip: translate('Select'),
-      context: context,
-      onTap: () {
-        model.setMultiSelectionMode(true);
-        if (isMobile && Navigator.canPop(context)) {
-          Navigator.pop(context);
-        }
-      },
-      child: SvgPicture.asset(
-        "assets/checkbox-outline.svg",
-        width: 18,
-        height: 18,
-        colorFilter: svgColor(textColor),
-      ),
-    );
-  }
+  // Widget _createMultiSelection() {
+  //   final textColor = Theme.of(context).textTheme.titleLarge?.color;
+  //   final model = Provider.of<PeerTabModel>(context);
+  //   return _hoverAction(
+  //     toolTip: translate('Select'),
+  //     context: context,
+  //     onTap: () {
+  //       model.setMultiSelectionMode(true);
+  //       if (isMobile && Navigator.canPop(context)) {
+  //         Navigator.pop(context);
+  //       }
+  //     },
+  //     child: SvgPicture.asset(
+  //       "assets/checkbox-outline.svg",
+  //       width: 18,
+  //       height: 18,
+  //       colorFilter: svgColor(textColor),
+  //     ),
+  //   );
+  // }
 
   void mobileShowTabVisibilityMenu() {
     final model = gFFI.peerTabModel;
@@ -563,10 +563,10 @@ class _PeerTabPageState extends State<PeerTabPage>
           index: PeerTabIndex.ab, loading: gFFI.abModel.currentAbLoading),
       _createRefresh(
           index: PeerTabIndex.group, loading: gFFI.groupModel.groupLoading),
-      Offstage(
-        offstage: model.currentTabCachedPeers.isEmpty,
-        child: _createMultiSelection(),
-      ),
+      // Offstage(
+      //   offstage: model.currentTabCachedPeers.isEmpty,
+      //   child: _createMultiSelection(),
+      // ),
       _createPeerViewTypeSwitch(context),
       Offstage(
         offstage: model.currentTab == PeerTabIndex.recent.index,
@@ -634,7 +634,7 @@ class _PeerTabPageState extends State<PeerTabPage>
             index: PeerTabIndex.group, loading: gFFI.groupModel.groupLoading),
     ];
     final List<Widget> dynamicActions = [
-      if (model.currentTabCachedPeers.isNotEmpty) _createMultiSelection(),
+      //if (model.currentTabCachedPeers.isNotEmpty) _createMultiSelection(),
       if (model.currentTab != PeerTabIndex.recent.index) PeerSortDropdown(),
       if (model.currentTab == PeerTabIndex.ab.index) _toggleTags()
     ];
