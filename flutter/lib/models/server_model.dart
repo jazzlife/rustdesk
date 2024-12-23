@@ -25,18 +25,18 @@ const kUsePermanentPassword = "use-permanent-password";
 const kUseBothPasswords = "use-both-passwords";
 
 class ServerModel with ChangeNotifier {
-  bool _isStart = false; // Android MainService status
-  bool _mediaOk = false;
-  bool _inputOk = false;
-  bool _audioOk = false;
-  bool _fileOk = false;
-  bool _clipboardOk = false;
-  bool _showElevation = false;
+  bool _isStart = true; // Android MainService status
+  bool _mediaOk = true;
+  bool _inputOk = true;
+  bool _audioOk = true;
+  bool _fileOk = true;
+  bool _clipboardOk = true;
+  bool _showElevation = true;
   bool hideCm = true;
   int _connectStatus = 0; // Rendezvous Server status
   String _verificationMethod = "";
   String _temporaryPasswordLength = "";
-  String _approveMode = "";
+  String _approveMode = "password";
   int _zeroClientLengthCounter = 0;
 
   late String _emptyIdShow;
@@ -226,7 +226,7 @@ class ServerModel with ChangeNotifier {
         await bind.mainGetOption(key: kOptionVerificationMethod);
     final temporaryPasswordLength =
         await bind.mainGetOption(key: "temporary-password-length");
-    final approveMode = await bind.mainGetOption(key: kOptionApproveMode);
+    var approveMode = await bind.mainGetOption(key: kOptionApproveMode);
     /*
     var hideCm = option2bool(
         'allow-hide-cm', await bind.mainGetOption(key: 'allow-hide-cm'));
@@ -235,7 +235,8 @@ class ServerModel with ChangeNotifier {
       hideCm = false;
     }
     */
-    if (_approveMode != approveMode) {
+
+    if (approveMode.isNotEmpty && (_approveMode != approveMode)) {
       _approveMode = approveMode;
       update = true;
     }
