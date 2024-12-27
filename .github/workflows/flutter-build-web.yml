@@ -47,7 +47,6 @@ env:
 
 jobs:
   build-rustdesk-web:
-    if: false
     name: build-rustdesk-web
     runs-on: ubuntu-20.04
     strategy:
