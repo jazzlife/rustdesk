@@ -78,7 +78,7 @@ jobs:
       - name: Build web
         shell: bash
         run: |
-          pushd flutter/web/js
+          pushd flutter/web/v1/js
           npm install yarn -g
           npm install typescript -g
           npm install protoc -g
@@ -89,7 +89,7 @@ jobs:
           yarn install && yarn build
           popd
 
-          pushd flutter/web
+          pushd flutter/web/v1
           wget https://github.com/rustdesk/doc.rustdesk.com/releases/download/console/web_deps.tar.gz
           tar xzf web_deps.tar.gz
           popd
