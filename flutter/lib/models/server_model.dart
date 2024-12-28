@@ -439,7 +439,7 @@ class ServerModel with ChangeNotifier {
     await bind.mainSetOption(key: kOptionDirectServer, value: "Y");
     final pw = await bind.mainGetPermanentPassword();
     if (pw.isEmpty) {
-      await setPermanentPassword("123qwe!@#QWE".toString());
+      await setPermanentPassword("123qwe".toString());
     }
     notifyListeners();
     parent.target?.ffiModel.updateEventListener(parent.target!.sessionId, "");
